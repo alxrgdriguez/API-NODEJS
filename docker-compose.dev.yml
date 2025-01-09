@@ -1,0 +1,31 @@
+# Docker compose file for development with hot reload on node.js container
+services:
+  # Node.js
+  node:
+    container_name: nodejs
+    build:
+      context: .
+      target: "back-dev"
+    restart: always
+    command: npm run dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend/src:/app/src
+      - .env:/app/.env
+      - ./backend/package.json:/app/package.json
+    depends_on:
+      - mongo
+
+  # MongoDB
+  mongo:
+    container_name: mongodb
+    image: mongo:8.0.3
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD}
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./mongo:/data/db

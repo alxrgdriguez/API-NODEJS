@@ -1,0 +1,24 @@
+services:
+  node:
+      container_name: nodejs
+      build:
+        context: .
+        target: "back-prod"
+      restart: always
+      expose:
+        - "3000"
+      depends_on:
+        - mongo
+
+  # MongoDB
+  mongo:
+      container_name: mongodb
+      image: mongo:8.0.3
+      restart: always
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USERNAME}
+        MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD}
+      ports:
+        - "27017:27017"
+      volumes:
+        - ./mongo:/data/db
