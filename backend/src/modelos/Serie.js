@@ -14,4 +14,4 @@ const dataSchema = new mongoose.Schema({
 });
 
 // Crear el modelo de 'Serie' basado en el esquema
-export const Serie = mongoose.model('serie', dataSchema);
+export const Serie = mongoose.model('series', dataSchema);

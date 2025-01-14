@@ -8,6 +8,7 @@ export async function connectDB() {
     try {
         await mongoose.connect(dbURI, {
             dbName:'series_api'});
+            console.log('Conexión establecida con éxito a la base de datos');
     }catch (error) {
         console.log(error);
         process.exit(1);
