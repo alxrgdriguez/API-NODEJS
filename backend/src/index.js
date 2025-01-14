@@ -1,5 +1,6 @@
 import {connectDB} from './conexion/database.js';
 import {setUpExpress} from './app.js';
+process.loadEnvFile('.env')
 await connectDB();
 
 const app = setUpExpress();
