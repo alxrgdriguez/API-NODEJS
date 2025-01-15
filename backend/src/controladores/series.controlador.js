@@ -48,6 +48,10 @@ export class SeriesController {
             const serieEliminada = await Serie.findByIdAndDelete(id);
             console.log('Series eliminada:', serieEliminada);
 
+            if(serieEliminada === null) {
+                return res.status(404).json({ message: 'No se encontró la serie' });
+            }
+
             // Enviar un mensaje de respuesta con el resultado de la operación
             res.status(200).json({ message: 'Series eliminada correctamente' });
 
@@ -65,6 +69,11 @@ export class SeriesController {
 
             // Obtener la serie con el id especificado
             const serieObtenida = await Serie.findById(id);
+
+            if(serieObtenida === null) {
+                return res.status(404).json({ message: 'No se encontró la serie' });
+            }
+
             console.log('Series obtenida:', serieObtenida);
 
             // Enviar los datos de la serie como respuesta en formato JSON
@@ -84,6 +93,11 @@ export class SeriesController {
 
             // Buscar todas las series con el género especificado
             const seriesBuscadas = await Serie.find({ genero: genero });
+
+            if(seriesBuscadas.length === 0) {
+                return res.status(404).json({ message: 'No se encontraron series' });
+            }
+
             console.log('Series buscadas:', seriesBuscadas);
 
             // Enviar los datos de las series como respuesta en formato JSON
@@ -118,6 +132,11 @@ export class SeriesController {
 
             // Obtener la serie con el id especificado
             const serie = await Serie.findById(id);
+
+            if(serie === null) {
+                return res.status(404).json({ message: 'No se encontró la serie' });
+            }
+
             console.log('Series obtenida:', serie);
 
             // Incrementar la puntuación de la serie
