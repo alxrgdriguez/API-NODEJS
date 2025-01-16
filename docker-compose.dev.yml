@@ -1,6 +1,6 @@
-# Docker compose file for development with hot reload on node.js container
+# Docker compose file for development with hot reload on node.frontend2 container
 services:
-  # Node.js
+  # Node.frontend2
   node:
     container_name: nodejs
     build:
@@ -29,3 +29,4 @@ services:
       - "27018:27017"
     volumes:
       - ./mongo:/data/db
+

@@ -22,3 +22,16 @@ services:
         - "27017:27017"
       volumes:
         - ./mongo:/data/db
+        -
+    # Nginx
+  web:
+      container_name: nginx
+      build:
+        context: .
+        target: "front-prod"
+      restart: always
+      ports:
+        - "8090:80"
+      depends_on:
+        - node
+

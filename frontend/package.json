@@ -1,18 +1,16 @@
 {
-  "name": "series-api",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "frontend",
+  "type": "module",
+  "version": "0.0.1",
   "scripts": {
-    "dev": "",
-    "build": ""
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.5.1",
+  "dependencies": {
+    "@astrojs/tailwind": "^5.1.4",
+    "astro": "^5.1.7",
     "tailwindcss": "^3.4.17"
   }
 }
