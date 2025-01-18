@@ -1,11 +1,14 @@
 import {Router} from 'express';
 import {SeriesController} from "../controladores/series.controlador.js";
+import multer from "multer";
 
 const SeriesRouter = Router();
 
+const upload = multer({storage: multer.memoryStorage()});
+
 // URL: /api/series
 SeriesRouter.get('/', SeriesController.obtenerSeries);
-SeriesRouter.post('/', SeriesController.agregarSerie);
+SeriesRouter.post('/', upload.single("imagen"),SeriesController.agregarSerie);
 SeriesRouter.put('/:id', SeriesController.sumarPuntuacion);
 SeriesRouter.get('/toprated', SeriesController.obtener10SerieMasPuntuadas);
 SeriesRouter.get('/genero/:genero', SeriesController.buscarPorGenero);
