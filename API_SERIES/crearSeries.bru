@@ -6,6 +6,18 @@ meta {
 
 post {
   url: http://localhost:3000/api/series
-  body: none
+  body: multipartForm
   auth: none
+}
+
+body:multipart-form {
+  titulo: TuRaza
+  descripcion: suraza
+  miPuntuacion: 2
+  esMiniserie: false
+  nTemporadas: 4
+  anio: 2025
+  genero: racismo
+  puntuacionTotal: 1.2
+  imagen: @file(/home/alejandro/Escritorio/Diseños_PaginaSeries/SeriesPagina/img/1.jpg)
 }
