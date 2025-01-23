@@ -12,6 +12,7 @@ services:
       - "3000:3000"
     volumes:
       - ./backend/src:/app/src
+      - ./backend/public:/app/public
       - .env:/app/.env
       - ./backend/package.json:/app/package.json
     depends_on:

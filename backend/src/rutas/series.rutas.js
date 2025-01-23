@@ -1,18 +1,33 @@
 import {Router} from 'express';
 import {SeriesController} from "../controladores/series.controlador.js";
-import {verificarToken} from "../middleware/verificarToken.js";
 import multer from "multer";
+import {v4 as uuidv4} from "uuid";
+import {validarAcceso} from "../middleware/validarAcceso.js";
 
 const SeriesRouter = Router();
 
-const upload = multer({storage: multer.memoryStorage()});
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const ruta = process.cwd();
+        cb(null, ruta + '/public');
+    },
+    filename: function (req, file, cb) {
+        const extension = file.originalname.split('.').pop();
+        const nombreImagen = uuidv4() + '.' + extension;
+        cb(null, nombreImagen);
+    }
+});
+
+const upload = multer({storage: storage});
+
+SeriesRouter.use(validarAcceso);
 
 // URL: /api/series
-SeriesRouter.get('/', verificarToken, SeriesController.obtenerSeries);
-SeriesRouter.post('/', verificarToken, upload.single("imagen"),SeriesController.agregarSerie);
-SeriesRouter.put('/:id', verificarToken, SeriesController.sumarPuntuacion);
-SeriesRouter.get('/toprated', verificarToken, SeriesController.obtener10SerieMasPuntuadas);
-SeriesRouter.get('/genero/:genero', verificarToken, SeriesController.buscarPorGenero);
-SeriesRouter.get('/:id', verificarToken, SeriesController.obtenerSeriePorId);
-SeriesRouter.delete('/:id', verificarToken, SeriesController.eliminarSerie);
+SeriesRouter.get('/', SeriesController.obtenerSeries);
+SeriesRouter.post('/', upload.single("imagen"),SeriesController.agregarSerie);
+SeriesRouter.put('/:id', SeriesController.sumarPuntuacion);
+SeriesRouter.get('/toprated', SeriesController.obtener10SerieMasPuntuadas);
+SeriesRouter.get('/genero/:genero', SeriesController.buscarPorGenero);
+SeriesRouter.get('/:id', SeriesController.obtenerSeriePorId);
+SeriesRouter.delete('/:id', SeriesController.eliminarSerie);
 export default SeriesRouter;

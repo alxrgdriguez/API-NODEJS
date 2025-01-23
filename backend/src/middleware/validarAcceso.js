@@ -1,8 +1,6 @@
-// backend/middleware/verificarToken.js
+import jwt from "jsonwebtoken";
 
-import jwt from 'jsonwebtoken';
-
-export function verificarToken(req, res, next) {
+export const validarAcceso = (req, res, next) => {
     // Obtener el token del encabezado 'Authorization'
     const token = req.header('Authorization')?.split(' ')[1];
 

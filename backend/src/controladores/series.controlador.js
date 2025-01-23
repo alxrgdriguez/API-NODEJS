@@ -28,33 +28,10 @@ export class SeriesController {
             console.log('Datos recibidos:', datos);
 
             const imagen = req.file;
-            console.log('Imagen recibida:', imagen);
-
-            const extension = imagen.originalname.split('.').pop();
-            console.log('Extensión de la imagen:', extension);
-
-            const nombreImagen = uuidv4() + '.' + extension;
-
-            const subidaParametros = {
-
-                Bucket: process.env.S3_BUCKET_NAME, // Nombre del bucket de S3
-                Key: nombreImagen, // El nombre con el que se guardará la imagen en S3
-                Body: imagen.buffer, // El contenido de la imagen en formato buffer
-                ContentType: imagen.mimetype, // El tipo de contenido de la imagen
-            };
-
-            // Upload the file to S3
-            s3.upload(subidaParametros, (err, data) => {
-                if (err) {
-                    console.log('Error al subir la imagen:', err);
-                } else {
-                    console.log('Archivo subido:', data.Location);
-                }
-
-            });
+            const serie = {...datos, imagen: imagen.filename};
 
             // Crear una nueva serie en la base de datos
-            const nuevaSerie = new Serie(datos);
+            const nuevaSerie = new Serie(serie);
             await nuevaSerie.save();
 
             // Enviar un mensaje de respuesta con el resultado de la operación
