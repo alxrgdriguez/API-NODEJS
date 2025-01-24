@@ -1,5 +1,6 @@
 ---
 import LayoutSecundario from "../layouts/LayoutSecundario.astro";
+import Input from "../components/form/Input.astro";
 ---
 
 <LayoutSecundario title="Registro">
@@ -12,33 +13,9 @@ import LayoutSecundario from "../layouts/LayoutSecundario.astro";
                 <p class="mt-2 text-sm text-gray-600">Ingrese sus datos para registrarse</p>
             </div>
         <form class="space-y-6">
-            <div>
-                <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre completo</label>
-                <div class="mt-1 relative rounded-md shadow-sm">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-user text-gray-400"></i>
-                    </div>
-                    <input type="text" id="nombre" name="nombre" required class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Juan Pérez">
-                </div>
-            </div>
-            <div>
-                <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
-                <div class="mt-1 relative rounded-md shadow-sm">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-envelope text-gray-400"></i>
-                    </div>
-                    <input type="email" id="email" name="email" required class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="juan@ejemplo.com">
-                </div>
-            </div>
-            <div>
-                <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
-                <div class="mt-1 relative rounded-md shadow-sm">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-lock text-gray-400"></i>
-                    </div>
-                    <input type="password" id="password" name="password" required class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="********">
-                </div>
-            </div>
+            <Input label="Nombre completo" id="nombre" type="text" icono="fas fa-user" placeholder="Nombre"/>
+            <Input label="Correo electrónico" id="email" type="email" icono="fas fa-envelope" placeholder="correo@ejemplo.com"/>
+            <Input label="Contraseña" id="password" type="password" icono="fas fa-lock" placeholder="********"/>
             <div>
                 <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
                     Registrarse
@@ -59,3 +36,28 @@ import LayoutSecundario from "../layouts/LayoutSecundario.astro";
         </div>
 
 </LayoutSecundario>
+
+<script>
+    const form = document.querySelector('form')!;
+    const urlBackend = 'http://localhost:3000/api/acceder/registro';
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const inputNombre = document.getElementById('nombre') as HTMLInputElement;
+        const inputEmail = document.getElementById('email') as HTMLInputElement;
+        const inputPassword = document.getElementById('password') as HTMLInputElement;
+
+        const response = await fetch(urlBackend, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                nombre: inputNombre.value,
+                email: inputEmail.value,
+                password: inputPassword.value,
+            }),
+        })
+        const data = await response.json();
+        console.log(data);
+    });
+</script>
